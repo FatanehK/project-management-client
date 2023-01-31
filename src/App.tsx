@@ -18,12 +18,14 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PageBody />}>
+        <Route path={RoutePaths.Home} element={<PageBody />}>
           <Route index element={<Home />} />
           <Route path={RoutePaths.Projects} element={<Projects />} />
+          <Route path={RoutePaths.ProjectDetail} element={<ProjectDetail />} />
           <Route path={RoutePaths.Tasks} element={<Tasks />} />
           <Route path={RoutePaths.Profile} element={<Profile />} />
           <Route path={RoutePaths.About} element={<About />} />
+          <Route path="*" element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>
