@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ProjectCard } from "../components/ProjectCard";
+import { ResponsiveAppBar } from "../components/TopBar";
 import { GetProjects } from "../services/requestHandlers";
 import { IProject } from "../types";
 
@@ -13,15 +15,18 @@ export const Home: React.FC = () => {
 
   return (
     <div>
+      <ResponsiveAppBar />
       <nav>
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
       </nav>
       <div>
         <button onClick={onLoadData}>click</button>
-        {projectList.map((p) => (
-          <div>{p.title}</div>
-        ))}
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {projectList.map((p) => (
+            <ProjectCard title={p.title} description={p.description ?? ""} />
+          ))}
+        </div>
       </div>
     </div>
   );

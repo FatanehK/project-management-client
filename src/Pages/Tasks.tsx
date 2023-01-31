@@ -1,10 +1,10 @@
 import { ResponsiveAppBar } from "../components/TopBar";
 
-export const About: React.FC = () => {
+export const Tasks: React.FC = () => {
   return (
     <div>
       <ResponsiveAppBar />
-      <div>About</div>
+      <div>Tasks</div>
     </div>
   );
 };
