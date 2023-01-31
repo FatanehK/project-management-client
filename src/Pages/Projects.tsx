@@ -1,4 +1,3 @@
-import { ResponsiveAppBar } from "../components/TopBar";
 import { Box, Container } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import { ProjectCard } from "../components/ProjectCard";
@@ -19,7 +18,6 @@ export const Projects: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <ResponsiveAppBar />
       <Container sx={{ m: 5 }}>
         <Grid
           container

@@ -1,10 +1,8 @@
-import { Box, Button, Container, Stack, TextField } from "@mui/material";
-import { ResponsiveAppBar } from "../components/TopBar";
+import { Box, Button, Stack, TextField } from "@mui/material";
 
 export const Profile: React.FC = () => {
   return (
     <Box>
-      <ResponsiveAppBar />
       <Stack spacing={5} alignItems="center" sx={{ mt: 5 }}>
         <TextField label="Full Name" variant="standard" value={"Ali"} />
         <TextField label="Email" variant="standard" value={"test@test.com"} />
