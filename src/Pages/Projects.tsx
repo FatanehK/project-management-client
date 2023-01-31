@@ -27,6 +27,7 @@ export const Projects: React.FC = () => {
           {projects?.map((project, index) => (
             <Grid xs={2} sm={4} md={4} key={index}>
               <ProjectCard
+                id={project.id}
                 title={project.title}
                 description={project.description ?? ""}
               />
