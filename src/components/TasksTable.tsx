@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { ITask } from "../types";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef, GridApi, GridReadyEvent } from "ag-grid-community";
+import { ColDef, GridReadyEvent } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 

@@ -62,5 +62,14 @@ export const GetProjectTasks = async (projectId:string) =>{
 
 }
 
-
+export const GetUsertasks =async (userId:number) => {
+    let response: ITask[] | null = null
+    const request = await axios({
+        method:'get',
+        url: `${URL}/users/${userId }/tasks`,
+        responseType: 'json',}
+    )
+    response = request.data
+    return response
+}
 
