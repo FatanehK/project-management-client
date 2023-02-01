@@ -12,3 +12,12 @@ export interface IProject {
   status: string | null;
   title: string;
 }
+
+export interface ITask {
+  id: number;
+  title: string;
+  description: string | null;
+  status: string | null;
+  due_date: Date | null;
+  assigned_to: IUser
+}

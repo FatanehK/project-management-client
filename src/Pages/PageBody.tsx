@@ -4,7 +4,7 @@ import { ResponsiveAppBar } from "../components/TopBar";
 
 export const PageBody: React.FC = () => {
   return (
-    <Box>
+    <Box sx={{height: "100%"}}>
       <ResponsiveAppBar />
       <Outlet />
     </Box>

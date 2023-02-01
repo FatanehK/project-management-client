@@ -20,6 +20,9 @@ export const ProjectCard: React.FC<IProjectCardProps> = (props) => {
       <CardActionArea onClick={() => navigate(`${id}`)}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
+            {id}
+          </Typography>{" "}
+          <Typography gutterBottom variant="h5" component="div">
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">

@@ -1,8 +1,5 @@
+import { Box } from "@mui/material";
 
 export const Tasks: React.FC = () => {
-  return (
-    <div>
-      <div>Tasks</div>
-    </div>
-  );
+  return <Box sx={{ flexGrow: 1 }}>Tasks</Box>;
 };

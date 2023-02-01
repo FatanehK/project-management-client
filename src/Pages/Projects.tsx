@@ -10,7 +10,7 @@ export const Projects: React.FC = () => {
 
   useEffect(() => {
     const loadProject = async () => {
-      const prjs = await GetProjects(5);
+      const prjs = await GetProjects(7);
       setProjects(prjs);
     };
     loadProject();

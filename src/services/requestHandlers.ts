@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IProject } from "../types";
+import { IProject, ITask } from "../types";
 
 const URL = "http://127.0.0.1:5000";
 
@@ -13,6 +13,9 @@ export const GetProjects = async (adminId: number) => {
             adminId
         }
     })
+    if (request.status !== 200) {
+        throw Error("Error in saving project")
+    }
     response = request.data
     return response
 };
@@ -24,6 +27,9 @@ export const GetProject = async (projectId: string) => {
         url: `${URL}/projects/${projectId}`,
         responseType: 'json',
     })
+    if (request.status !== 200) {
+        throw Error("Error in saving project")
+    }
     response = request.data
     return response
 }
@@ -39,4 +45,22 @@ export const SaveProject = async (project: Partial<IProject>) => {
         throw Error("Error in saving project")
     }
 }
+
+
+export const GetProjectTasks = async (projectId:string) =>{
+    let response : ITask[] | null = null
+    const request = await axios({
+        method: 'get',
+        url: `${URL}/projects/${projectId}/tasks`,
+        responseType: 'json',
+    })
+    if (request.status !== 200) {
+        throw Error("Error in saving project")
+    }
+    response = request.data
+    return response
+
+}
+
+
 

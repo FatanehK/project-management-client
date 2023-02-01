@@ -1,8 +1,13 @@
 import { Alert, Box, Button, Snackbar, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GetProject, SaveProject } from "../services/requestHandlers";
-import { IProject } from "../types";
+import { TasksTable } from "../components/TasksTable";
+import {
+  GetProject,
+  GetProjectTasks,
+  SaveProject,
+} from "../services/requestHandlers";
+import { IProject, ITask } from "../types";
 
 export const ProjectDetail: React.FC = () => {
   const { projectId } = useParams();
@@ -10,6 +15,7 @@ export const ProjectDetail: React.FC = () => {
     title: "",
     description: "",
   });
+  const [tasks, setTasks] = useState<ITask[] | null>(null);
   const [alert, setAlert] = useState<{
     open: boolean;
     severity: "success" | "error";
@@ -27,7 +33,14 @@ export const ProjectDetail: React.FC = () => {
         }
       }
     };
+    const loadProjectTasks = async () => {
+      if (projectId) {
+        const tasksList = await GetProjectTasks(projectId);
+        setTasks(tasksList);
+      }
+    };
     loadProject();
+    loadProjectTasks();
   }, [projectId]);
 
   const handleOnTitleChange = (
@@ -64,7 +77,7 @@ export const ProjectDetail: React.FC = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ height: "100%" }}>
       <Snackbar
         open={alert.open}
         autoHideDuration={6000}
@@ -110,6 +123,7 @@ export const ProjectDetail: React.FC = () => {
           Save
         </Button>
       </Box>
+      {tasks && <TasksTable tasks={tasks} />}
     </Box>
   );
 };
