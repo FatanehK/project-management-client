@@ -4,9 +4,11 @@ import { ResponsiveAppBar } from "../components/TopBar";
 
 export const PageBody: React.FC = () => {
   return (
-    <Box sx={{height: "100%"}}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <ResponsiveAppBar />
-      <Outlet />
+      <Box sx={{ display: "flex", flex: "1 1 auto", alignSelf: "stretch" }}>
+        <Outlet />
+      </Box>
     </Box>
   );
 };

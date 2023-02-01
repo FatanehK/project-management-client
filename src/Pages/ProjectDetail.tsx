@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Snackbar, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TasksTable } from "../components/TasksTable";
@@ -77,7 +77,16 @@ export const ProjectDetail: React.FC = () => {
   };
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box
+      sx={{
+        flex: "1 1 auto",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignContent: "stretch",
+        alignItems: "flex-start",
+      }}
+    >
       <Snackbar
         open={alert.open}
         autoHideDuration={6000}
@@ -98,13 +107,25 @@ export const ProjectDetail: React.FC = () => {
         noValidate
         autoComplete="off"
         sx={{
+          flex: "0 1 auto",
+          alignSelf: "stretch",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          p: 5,
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
+          pl: 5,
+          pr: 5,
+          pt: 3,
+          "& .MuiTextField-root": { m: 1, width: "100%" },
         }}
       >
+        <Typography
+          gutterBottom
+          variant="overline"
+          component="div"
+          sx={{ alignSelf: "start" }}
+        >
+          {`Project Id: ${projectId}`}
+        </Typography>
         <TextField
           label="Title"
           variant="outlined"
@@ -119,10 +140,15 @@ export const ProjectDetail: React.FC = () => {
           value={project.description}
           onChange={handleOnDescriptionChange}
         />
-        <Button variant="contained" sx={{ width: 100 }} onClick={onSave}>
+        <Button
+          variant="contained"
+          sx={{ width: 100, alignSelf: "end" }}
+          onClick={onSave}
+        >
           Save
         </Button>
       </Box>
+
       {tasks && <TasksTable tasks={tasks} />}
     </Box>
   );

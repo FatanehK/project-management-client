@@ -18,6 +18,6 @@ export interface ITask {
   title: string;
   description: string | null;
   status: string | null;
-  due_date: Date | null;
+  due_date: string | null;
   assigned_to: IUser
 }

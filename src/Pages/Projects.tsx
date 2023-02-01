@@ -17,7 +17,7 @@ export const Projects: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flex: "1 1 auto" }}>
       <Container sx={{ m: 5 }}>
         <Grid
           container
