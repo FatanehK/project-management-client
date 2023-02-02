@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import { IProject } from "../types";
 import { GetProjects } from "../services/requestHandlers";
 import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+import { RoutePaths } from "../contants";
 
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<IProject[] | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProject = async () => {
@@ -17,9 +20,13 @@ export const Projects: React.FC = () => {
     loadProject();
   }, []);
 
+  const onNewProject = () => {
+    navigate(RoutePaths.NewProject);
+  };
+
   return (
     <Box sx={{ flex: "1 1 auto" }}>
-      <Button sx={{ p: 3 }} startIcon={<AddIcon />}>
+      <Button onClick={onNewProject} sx={{ p: 3 }} startIcon={<AddIcon />}>
         New Project
       </Button>
       <Container sx={{ m: 5 }}>

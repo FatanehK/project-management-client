@@ -1,3 +1,5 @@
+import { Status } from "./contants";
+
 export interface IUser {
   email: string;
   full_name: string | null;
@@ -9,15 +11,17 @@ export interface IProject {
   admin: IUser;
   description: string | null;
   id: number;
-  status: string | null;
+  status: StatusType;
   title: string;
 }
+
+export type StatusType = keyof typeof Status;
 
 export interface ITask {
   id: number;
   title: string;
   description: string | null;
-  status: string | null;
+  status: StatusType;
   due_date: string | null;
   assigned_to: IUser
 }

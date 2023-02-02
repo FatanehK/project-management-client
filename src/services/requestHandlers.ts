@@ -98,18 +98,18 @@ export const SaveTask = async (task: Partial<ITask>) => {
     }
 }
 
-export const createProject = async (project: IProject) => {
+export const CreateProject = async (project: Partial<IProject>) => {
     const request = await axios({
         method: 'post',
         url: `${URL}/projects`,
         data: {
             title: project.title,
-            desciption: project.description,
+            description: project.description,
             status: project.status,
-            admin_id: 6
+            admin_id: 7
         }
     });
-    if (request.status !== 200) {
+    if (request.status !== 201) {
         throw Error("Error in saving project")
     }
 }

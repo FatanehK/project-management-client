@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Routes, BrowserRouter, Route, Outlet } from "react-router-dom";
+import { Routes, BrowserRouter, Route } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { About } from "./Pages/About";
 import "@fontsource/roboto/300.css";
@@ -13,6 +13,8 @@ import { Profile } from "./Pages/Profile";
 import { RoutePaths } from "./contants";
 import { ProjectDetail } from "./Pages/ProjectDetail";
 import { PageBody } from "./Pages/PageBody";
+import { NewProject } from "./Pages/NewProject";
+import { TaskDetail } from "./Pages/TaskDetail";
 
 const App: React.FC = () => {
   return (
@@ -22,7 +24,9 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path={RoutePaths.Projects} element={<Projects />} />
           <Route path={RoutePaths.ProjectDetail} element={<ProjectDetail />} />
+          <Route path={RoutePaths.NewProject} element={<NewProject />} />
           <Route path={RoutePaths.Tasks} element={<Tasks />} />
+          <Route path={RoutePaths.TaskDetail} element={<TaskDetail />} />
           <Route path={RoutePaths.Profile} element={<Profile />} />
           <Route path={RoutePaths.About} element={<About />} />
           <Route path="*" element={<Home />} />

@@ -1,9 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { ITask } from "../types";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef, GridReadyEvent } from "ag-grid-community";
+import {
+  ColDef,
+  GridReadyEvent,
+  RowDoubleClickedEvent,
+} from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { useNavigate } from "react-router-dom";
 
 export interface ITasksTableProps {
   tasks: ITask[];
@@ -58,6 +63,7 @@ const defaultColDef: ColDef = {
 
 export const TasksTable: React.FC<ITasksTableProps> = (props) => {
   const { tasks } = props;
+  const navigate = useNavigate();
   const rows: ITaskRow[] = tasks.map((task) => {
     return {
       id: task.id,
@@ -70,7 +76,14 @@ export const TasksTable: React.FC<ITasksTableProps> = (props) => {
   });
 
   const onGridReady = (params: GridReadyEvent<ITaskRow>) => {
-    params.api.sizeColumnsToFit()
+    params.api.sizeColumnsToFit();
+  };
+
+  const onRowDoubleClicked = (event: RowDoubleClickedEvent<ITaskRow>) => {
+    const taskId = event.data?.id;
+    if (taskId) {
+      navigate(`${taskId}`);
+    }
   };
 
   return (
@@ -102,6 +115,7 @@ export const TasksTable: React.FC<ITasksTableProps> = (props) => {
           rowData={rows}
           defaultColDef={defaultColDef}
           onGridReady={onGridReady}
+          onRowDoubleClicked={onRowDoubleClicked}
         />
       </div>
     </Box>
