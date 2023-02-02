@@ -1,9 +1,10 @@
-import { Box, Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import { ProjectCard } from "../components/ProjectCard";
 import { useEffect, useState } from "react";
 import { IProject } from "../types";
 import { GetProjects } from "../services/requestHandlers";
+import AddIcon from "@mui/icons-material/Add";
 
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<IProject[] | null>(null);
@@ -18,6 +19,9 @@ export const Projects: React.FC = () => {
 
   return (
     <Box sx={{ flex: "1 1 auto" }}>
+      <Button sx={{ p: 3 }} startIcon={<AddIcon />}>
+        New Project
+      </Button>
       <Container sx={{ m: 5 }}>
         <Grid
           container
@@ -30,6 +34,7 @@ export const Projects: React.FC = () => {
                 id={project.id}
                 title={project.title}
                 description={project.description ?? ""}
+                // status={project.status}
               />
             </Grid>
           ))}

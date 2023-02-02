@@ -47,8 +47,8 @@ export const SaveProject = async (project: Partial<IProject>) => {
 }
 
 
-export const GetProjectTasks = async (projectId:string) =>{
-    let response : ITask[] | null = null
+export const GetProjectTasks = async (projectId: string) => {
+    let response: ITask[] | null = null
     const request = await axios({
         method: 'get',
         url: `${URL}/projects/${projectId}/tasks`,
@@ -62,14 +62,54 @@ export const GetProjectTasks = async (projectId:string) =>{
 
 }
 
-export const GetUsertasks =async (userId:number) => {
+export const GetUsertasks = async (userId: number) => {
     let response: ITask[] | null = null
     const request = await axios({
-        method:'get',
-        url: `${URL}/users/${userId }/tasks`,
-        responseType: 'json',}
+        method: 'get',
+        url: `${URL}/users/${userId}/tasks`,
+        responseType: 'json',
+    }
     )
     response = request.data
     return response
 }
 
+export const GetTask = async (taskId: string) => {
+    let response: Partial<ITask>
+    const request = await axios({
+        method: 'get',
+        url: `${URL}/tasks/${taskId}`,
+        responseType: 'json'
+    })
+    response = request.data
+    return response
+}
+
+export const SaveTask = async (task: Partial<ITask>) => {
+    const request = await axios({
+        method: 'put',
+        url: `${URL}/tasks/${task.id}`,
+        responseType: 'json',
+        data: task
+
+    })
+    if (request.status !== 200) {
+        throw Error("Error in saving project")
+    }
+}
+
+export const createProject = async (project: IProject) => {
+    const request = await axios({
+        method: 'post',
+        url: `${URL}/projects`,
+        data: {
+            title: project.title,
+            desciption: project.description,
+            status: project.status,
+            admin_id: 6
+        }
+    });
+    if (request.status !== 200) {
+        throw Error("Error in saving project")
+    }
+}
