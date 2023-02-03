@@ -1,20 +1,31 @@
-import { Alert, Box, Button, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TasksTable } from "../components/TasksTable";
+import { UserList } from "../components/UsersList";
 import {
   GetProject,
+  GetProjectMember,
   GetProjectTasks,
   SaveProject,
 } from "../services/requestHandlers";
-import { IProject, ITask } from "../types";
+import { IProject, ITask, IUser } from "../types";
 
 export const ProjectDetail: React.FC = () => {
   const { projectId } = useParams();
+
   const [project, setProject] = useState<Partial<IProject>>({
     title: "",
     description: "",
   });
+  const [members, setMembers] = useState<IUser[]>([])
   const [tasks, setTasks] = useState<ITask[] | null>(null);
   const [alert, setAlert] = useState<{
     open: boolean;
@@ -39,8 +50,15 @@ export const ProjectDetail: React.FC = () => {
         setTasks(tasksList);
       }
     };
+    const loadProjectMembers = async () => {
+      if (projectId) {
+        const memberlist = await GetProjectMember(projectId);
+        setMembers(memberlist);
+      }
+    };
     loadProject();
     loadProjectTasks();
+    loadProjectMembers();
   }, [projectId]);
 
   const handleOnTitleChange = (
@@ -150,6 +168,7 @@ export const ProjectDetail: React.FC = () => {
       </Box>
 
       {tasks && <TasksTable tasks={tasks} />}
+      <UserList users={members ?? []} />
     </Box>
   );
 };

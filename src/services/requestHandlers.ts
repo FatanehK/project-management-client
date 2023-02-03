@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IProject, ITask } from "../types";
+import { IProject, ITask, IUser } from "../types";
 
 const URL = "http://127.0.0.1:5000";
 
@@ -112,4 +112,35 @@ export const CreateProject = async (project: Partial<IProject>) => {
     if (request.status !== 201) {
         throw Error("Error in saving project")
     }
+}
+export const CreateTask = async (task: Partial<ITask>)=>{
+    const request = await axios ({
+        method: 'post',
+        url: `${URL}/tasks`,
+        data :{
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            due_date: task.due_date,
+            assigned_to: task.assigned_to
+        }
+    });
+    if (request.status !==201){
+        throw Error("Error in saving project")
+    }
+}
+
+export const GetProjectMember = async (projectId:string) => {
+    let response: IUser[] = []
+    const request = await axios({
+        method: 'get',
+        url: `${URL}/projects/${projectId}/members`,
+        responseType: 'json',
+    })
+    if (request.status !== 200) {
+        throw Error("Error in getting user")
+    }
+    response = request.data
+    return response
+    
 }

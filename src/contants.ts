@@ -5,6 +5,7 @@ export const RoutePaths: { [key: string]: string } = {
     NewProject: "/projects/new-prject",
     Tasks: "/tasks",
     TaskDetail: "/tasks/:taskId",
+    NewTask: "/tasks/new-task",
     Profile: "/profile",
     About: "/about",
     Logout: "/logout"

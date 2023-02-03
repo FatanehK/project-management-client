@@ -1,11 +1,15 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { TasksTable } from "../components/TasksTable";
 import { GetUsertasks } from "../services/requestHandlers";
 import { ITask } from "../types";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+import { RoutePaths } from "../contants";
 
 export const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -16,6 +20,9 @@ export const Tasks: React.FC = () => {
     };
     loadTasks();
   }, []);
+  const onNewTask = () => {
+    navigate(RoutePaths.NewTask);
+  };
 
   return (
     <Box
@@ -29,6 +36,10 @@ export const Tasks: React.FC = () => {
         width: "100%",
       }}
     >
+      <Button
+        onClick={onNewTask}
+        sx={{ alignSelf: "start" ,p: 2 }}
+        startIcon={<AddIcon />}>New Task</Button>
       <TasksTable tasks={tasks} />
     </Box>
   );

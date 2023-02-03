@@ -3,8 +3,8 @@ import { Box, Button, Stack, TextField } from "@mui/material";
 export const Profile: React.FC = () => {
   return (
     <Box>
-      <Stack spacing={5} alignItems="center" sx={{ mt: 5 }}>
-        <TextField label="Full Name" variant="standard" value={"Ali"} />
+      <Stack spacing={5} alignItems="center" sx={{ mt: 7 }}>
+        <TextField label="Full Name" variant="standard" value={"Fataneh"} />
         <TextField label="Email" variant="standard" value={"test@test.com"} />
         <TextField
           label="Password"

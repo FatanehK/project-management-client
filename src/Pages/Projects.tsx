@@ -2,21 +2,24 @@ import { Box, Button, Container } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import { ProjectCard } from "../components/ProjectCard";
 import { useEffect, useState } from "react";
-import { IProject } from "../types";
+import { IProject, IUser } from "../types";
 import { GetProjects } from "../services/requestHandlers";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
+import { UserList } from "../components/UsersList";
 
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<IProject[] | null>(null);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const loadProject = async () => {
       const prjs = await GetProjects(7);
       setProjects(prjs);
     };
+    
     loadProject();
   }, []);
 
@@ -47,6 +50,7 @@ export const Projects: React.FC = () => {
           ))}
         </Grid>
       </Container>
+      
     </Box>
   );
 };

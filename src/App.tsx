@@ -15,6 +15,7 @@ import { ProjectDetail } from "./Pages/ProjectDetail";
 import { PageBody } from "./Pages/PageBody";
 import { NewProject } from "./Pages/NewProject";
 import { TaskDetail } from "./Pages/TaskDetail";
+import { NewTask } from "./Pages/NewTask";
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path={RoutePaths.NewProject} element={<NewProject />} />
           <Route path={RoutePaths.Tasks} element={<Tasks />} />
           <Route path={RoutePaths.TaskDetail} element={<TaskDetail />} />
+          <Route path= {RoutePaths.NewTasK} element={<NewTask/>}/>
           <Route path={RoutePaths.Profile} element={<Profile />} />
           <Route path={RoutePaths.About} element={<About />} />
           <Route path="*" element={<Home />} />

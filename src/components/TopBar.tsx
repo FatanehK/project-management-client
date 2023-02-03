@@ -54,7 +54,7 @@ export const ResponsiveAppBar: React.FC = () => {
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           {/* change  */}
-          <Avatar>AR</Avatar>
+          <Avatar>Fk</Avatar>
         </IconButton>
       </Tooltip>
       <Menu
@@ -106,7 +106,6 @@ export const ResponsiveAppBar: React.FC = () => {
         onClick={handleOpenNavMenu}
         color="inherit"
       >
-        {/* question */}
         <MenuIcon />
       </IconButton>
       <Menu
