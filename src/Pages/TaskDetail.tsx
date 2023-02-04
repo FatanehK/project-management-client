@@ -2,16 +2,19 @@ import { Box, Snackbar, Alert, TextField, Button } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StatusSelector } from "../components/StatusSelector";
-import { Status } from "../contants";
 import { GetTask, SaveTask } from "../services/requestHandlers";
 import { ITask, StatusType } from "../types";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 export const TaskDetail: React.FC = () => {
   const { taskId } = useParams();
-  const [task, setEditTask] = useState<Partial<ITask>>({
+  const [task, setTask] = useState<Partial<ITask>>({
     title: "",
     description: "",
     status: "New",
+    due_date: "",
   });
 
   const [alert, setAlert] = useState<{
@@ -27,33 +30,38 @@ export const TaskDetail: React.FC = () => {
       if (taskId) {
         const tsk = await GetTask(taskId);
         if (tsk) {
-          setEditTask(tsk);
+          setTask(tsk);
         }
       }
     };
+
     loadTask();
   }, [taskId]);
 
-  const handleOnTaskTitleChange = (
+  const onTitleChanged = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const title = event.currentTarget.value;
-    setEditTask({ ...task, title });
+    setTask({ ...task, title });
   };
 
-  const handleOnTaskDescriptionChange = (
+  const onDescriptionChanged = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const description = event.currentTarget.value;
-    setEditTask({ ...task, description });
+    setTask({ ...task, description });
   };
-  const handleOnTaskStatusChange = (newStatus: StatusType) => {
-    setEditTask({ ...task, status: newStatus });
+
+  const onStatusChanged = (newStatus: StatusType) => {
+    setTask({ ...task, status: newStatus });
   };
-  // const handleOnTaskDuedateChange = (newStatus: StatusType) => {
-  //   const due_date = event.currentTarget.value;
-  //   setEditTask({ ...task, due_date });
-  // };
+
+  const onDueDateChanged = (newValue: Dayjs | null) => {
+    if (newValue) {
+      setTask({ ...task, due_date: newValue.toString() });
+    }
+  };
+
   const onSave = async () => {
     try {
       await SaveTask(task);
@@ -86,7 +94,7 @@ export const TaskDetail: React.FC = () => {
         pl: 5,
         pr: 5,
         pt: 3,
-        "& .MuiTextField-root": { m: 1, width: "100%" },
+        "& .MuiTextField-root": { mt: 1, mb: 1, width: "100%" },
       }}
     >
       <Snackbar
@@ -108,7 +116,7 @@ export const TaskDetail: React.FC = () => {
         label="Title"
         variant="outlined"
         value={task.title}
-        onChange={handleOnTaskTitleChange}
+        onChange={onTitleChanged}
       />
       <TextField
         label="Description"
@@ -116,13 +124,21 @@ export const TaskDetail: React.FC = () => {
         rows={5}
         variant="outlined"
         value={task.description}
-        onChange={handleOnTaskDescriptionChange}
+        onChange={onDescriptionChanged}
       />
-      <Box sx={{ alignSelf: "start" }}>
+      <Box sx={{ alignSelf: "start" , width: 200}}>
         <StatusSelector
-          onChange={handleOnTaskStatusChange}
+          onChange={onStatusChanged}
           value={task.status ?? "New"}
         />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker<Dayjs>
+            label="Due Date"
+            value={dayjs(task.due_date)}
+            onChange={onDueDateChanged}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
       </Box>
 
       <Button

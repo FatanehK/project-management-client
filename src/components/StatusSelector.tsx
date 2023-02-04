@@ -28,8 +28,10 @@ export const StatusSelector: React.FC<IStatusSelectorProps> = (props) => {
         label="Status"
         onChange={onValueChanged}
       >
-        {Object.keys(Status).map((s) => (
-          <MenuItem value={s}>{s}</MenuItem>
+        {Object.keys(Status).map((s, index) => (
+          <MenuItem key={index} value={s}>
+            {s}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

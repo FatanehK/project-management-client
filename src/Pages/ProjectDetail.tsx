@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TasksTable } from "../components/TasksTable";
@@ -34,6 +35,8 @@ export const ProjectDetail: React.FC = () => {
     open: false,
     severity: "error",
   });
+  
+
 
   useEffect(() => {
     const loadProject = async () => {
@@ -169,6 +172,7 @@ export const ProjectDetail: React.FC = () => {
 
       {tasks && <TasksTable tasks={tasks} />}
       <UserList users={members ?? []} />
+      
     </Box>
   );
 };
