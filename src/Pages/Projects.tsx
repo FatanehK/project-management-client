@@ -12,14 +12,13 @@ import { UserList } from "../components/UsersList";
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<IProject[] | null>(null);
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const loadProject = async () => {
       const prjs = await GetProjects(7);
       setProjects(prjs);
     };
-    
+
     loadProject();
   }, []);
 
@@ -32,7 +31,7 @@ export const Projects: React.FC = () => {
       <Button onClick={onNewProject} sx={{ p: 3 }} startIcon={<AddIcon />}>
         New Project
       </Button>
-      <Container sx={{ m: 5 }}>
+      <Container sx={{ m: 2 }}>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -50,7 +49,6 @@ export const Projects: React.FC = () => {
           ))}
         </Grid>
       </Container>
-      
     </Box>
   );
 };

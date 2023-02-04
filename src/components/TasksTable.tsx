@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 
 export interface ITasksTableProps {
   tasks: ITask[];
+  showLable: boolean;
 }
 
 interface ITaskRow {
@@ -28,7 +29,7 @@ const columns: ColDef<ITaskRow>[] = [
   {
     field: "id",
     headerName: "Id",
-    width: 70,
+    width: 80,
     resizable: false,
   },
   {
@@ -70,7 +71,7 @@ const defaultColDef: ColDef = {
 };
 
 export const TasksTable: React.FC<ITasksTableProps> = (props) => {
-  const { tasks } = props;
+  const { tasks, showLable } = props;
   const navigate = useNavigate();
   const rows: ITaskRow[] = tasks.map((task) => {
     return {
@@ -106,14 +107,16 @@ export const TasksTable: React.FC<ITasksTableProps> = (props) => {
         pd: 5,
       }}
     >
-      <Typography
-        gutterBottom
-        variant="overline"
-        component="div"
-        sx={{ alignSelf: "start" }}
-      >
-        Tasks
-      </Typography>
+      {showLable && (
+        <Typography
+          gutterBottom
+          variant="overline"
+          component="div"
+          sx={{ alignSelf: "start" }}
+        >
+          Tasks
+        </Typography>
+      )}
       <div
         style={{ flex: "1 1 auto", alignSelf: "stretch" }}
         className="ag-theme-material"

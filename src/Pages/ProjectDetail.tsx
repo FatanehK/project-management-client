@@ -26,7 +26,7 @@ export const ProjectDetail: React.FC = () => {
     title: "",
     description: "",
   });
-  const [members, setMembers] = useState<IUser[]>([])
+  const [members, setMembers] = useState<IUser[]>([]);
   const [tasks, setTasks] = useState<ITask[] | null>(null);
   const [alert, setAlert] = useState<{
     open: boolean;
@@ -35,8 +35,6 @@ export const ProjectDetail: React.FC = () => {
     open: false,
     severity: "error",
   });
-  
-
 
   useEffect(() => {
     const loadProject = async () => {
@@ -170,9 +168,8 @@ export const ProjectDetail: React.FC = () => {
         </Button>
       </Box>
 
-      {tasks && <TasksTable tasks={tasks} />}
+      {tasks && <TasksTable tasks={tasks} showLable={true} />}
       <UserList users={members ?? []} />
-      
     </Box>
   );
 };

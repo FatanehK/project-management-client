@@ -32,15 +32,18 @@ export const Tasks: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        p: 5,
+        p: 1,
         width: "100%",
       }}
     >
       <Button
         onClick={onNewTask}
-        sx={{ alignSelf: "start" ,p: 2 }}
-        startIcon={<AddIcon />}>New Task</Button>
-      <TasksTable tasks={tasks} />
+        sx={{ alignSelf: "start", p: 2 }}
+        startIcon={<AddIcon />}
+      >
+        New Task
+      </Button>
+      <TasksTable tasks={tasks} showLable={false} />
     </Box>
   );
 };

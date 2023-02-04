@@ -1,14 +1,18 @@
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Button, Container, Stack, TextField } from "@mui/material";
 
 export const Profile: React.FC = () => {
   return (
-    <Box>
-      <Stack spacing={5} alignItems="center" sx={{ mt: 7 }}>
-        <TextField label="Full Name" variant="standard" value={"Fataneh"} />
-        <TextField label="Email" variant="standard" value={"test@test.com"} />
+    <Container maxWidth="sm">
+      <Stack
+        spacing={2}
+        alignItems="center"
+        sx={{ m: 3, "& .MuiTextField-root": { width: "100%" } }}
+      >
+        <TextField label="Full Name" variant="outlined" value={"Fataneh"} />
+        <TextField label="Email" variant="outlined" value={"test@test.com"} />
         <TextField
           label="Password"
-          variant="standard"
+          variant="outlined"
           type="password"
           value={"12345"}
         />
@@ -16,6 +20,6 @@ export const Profile: React.FC = () => {
           Save
         </Button>
       </Stack>
-    </Box>
+    </Container>
   );
 };
