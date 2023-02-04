@@ -9,6 +9,7 @@ import {
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export interface ITasksTableProps {
   tasks: ITask[];
@@ -23,7 +24,7 @@ interface ITaskRow {
   assignedTo: string;
 }
 
-const columns: ColDef[] = [
+const columns: ColDef<ITaskRow>[] = [
   {
     field: "id",
     headerName: "Id",
@@ -38,17 +39,24 @@ const columns: ColDef[] = [
   {
     field: "dueDate",
     headerName: "Due Date",
-    width: 110,
+    width: 150,
+    valueFormatter: (taskRow) => {
+      if (taskRow.data?.dueDate) {
+        return dayjs(taskRow.data?.dueDate).format("MM/DD/YYYY");
+      } else {
+        return "";
+      }
+    },
   },
   {
     field: "status",
     headerName: "Status",
-    width: 80,
+    width: 150,
   },
   {
     field: "assignedTo",
     headerName: "Assigned To",
-    width: 110,
+    width: 150,
   },
   {
     field: "description",
