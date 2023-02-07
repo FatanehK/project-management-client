@@ -16,13 +16,11 @@ export const ProjectCard: React.FC<IProjectCardProps> = (props) => {
   const navigate = useNavigate();
 
   return (
-    <Card sx={{ maxWidth: 200 }} style={{ margin: 10 }}>
-      <CardActionArea onClick={() => navigate(`${id}`)}>
+    <Card sx={{ maxWidth: 400, height: 150 }}>
+      <CardActionArea sx={{ height: "100%" }} onClick={() => navigate(`${id}`)}>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {id}
-          </Typography>{" "}
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom>{id}</Typography>
+          <Typography gutterBottom variant="h5">
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">

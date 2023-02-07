@@ -113,11 +113,11 @@ export const CreateProject = async (project: Partial<IProject>) => {
         throw Error("Error in saving project")
     }
 }
-export const CreateTask = async (task: Partial<ITask>)=>{
-    const request = await axios ({
+export const CreateTask = async (task: Partial<ITask>) => {
+    const request = await axios({
         method: 'post',
         url: `${URL}/tasks`,
-        data :{
+        data: {
             title: task.title,
             description: task.description,
             status: task.status,
@@ -125,12 +125,12 @@ export const CreateTask = async (task: Partial<ITask>)=>{
             assigned_to: task.assigned_to
         }
     });
-    if (request.status !==201){
+    if (request.status !== 201) {
         throw Error("Error in saving project")
     }
 }
 
-export const GetProjectMember = async (projectId:string) => {
+export const GetProjectMember = async (projectId: string) => {
     let response: IUser[] = []
     const request = await axios({
         method: 'get',
@@ -142,5 +142,23 @@ export const GetProjectMember = async (projectId:string) => {
     }
     response = request.data
     return response
-    
+
+}
+
+export const ValidateGoogleAuth = async (id_token: string) => {
+    const request = await axios({
+        method: 'post',
+        url: `${URL}/google/auth`,
+        responseType: 'json',
+        data: {
+            id_token
+        }
+
+    })
+    if (request.status !== 200) {
+        throw Error("Error in Login")
+    }
+
+    const response = request.data
+    return response
 }
