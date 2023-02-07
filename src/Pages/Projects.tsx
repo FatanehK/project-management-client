@@ -2,12 +2,11 @@ import { Box, Button, Container } from "@mui/material";
 import { default as Grid } from "@mui/material/Unstable_Grid2";
 import { ProjectCard } from "../components/ProjectCard";
 import { useEffect, useState } from "react";
-import { IProject, IUser } from "../types";
+import { IProject } from "../types";
 import { GetProjects } from "../services/requestHandlers";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
-import { UserList } from "../components/UsersList";
 
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<IProject[] | null>(null);

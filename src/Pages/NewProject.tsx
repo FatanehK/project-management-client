@@ -11,9 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { CreateProject } from "../services/requestHandlers";
 import { IProject } from "../types";
 import { RoutePaths } from "../contants";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 export const NewProject: React.FC = () => {
   const navigate = useNavigate();

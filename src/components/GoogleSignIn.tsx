@@ -24,7 +24,6 @@ export const GoogleAuth = () => {
     <Box>
       {profile ? (
         <div>
-          <img src={profile} alt="user image" />
           <h3>User Logged in</h3>
           <p>Name: {profile.name}</p>
           <p>Email Address: {profile.email}</p>
