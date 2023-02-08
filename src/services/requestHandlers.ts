@@ -1,7 +1,7 @@
 import axios from "axios";
 import { IProject, ITask, IUser } from "../types";
 
-const URL = "http://127.0.0.1:5000";
+const URL = process.env.REACT_APP_PROD_ENDPOINT || "http://127.0.0.1:5000"; //  "https://simpleprojectmanager.azurewebsites.net" // "http://127.0.0.1:5000";
 
 export const GetProjects = async (adminId: number) => {
     let response: Array<IProject> = []
