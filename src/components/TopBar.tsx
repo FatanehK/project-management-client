@@ -17,7 +17,7 @@ import { useAtom } from "jotai";
 import { currentUserAtom } from "../state/atoms";
 
 const pages = ["Home", "Projects", "Tasks"];
-const settings = ["Profile", "About", "Logout"];
+const settings = ["Profile", "Logout"];
 
 export const ResponsiveAppBar: React.FC = () => {
   const [currentUser] = useAtom(currentUserAtom);

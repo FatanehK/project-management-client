@@ -7,19 +7,22 @@ import { GetProjects } from "../services/requestHandlers";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
+import { useAtom } from "jotai";
+import { jwtTokenAtom } from "../state/atoms";
 
 export const Projects: React.FC = () => {
+  const [jwtToken] = useAtom(jwtTokenAtom);
   const [projects, setProjects] = useState<IProject[] | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadProject = async () => {
-      const prjs = await GetProjects(7);
+      const prjs = await GetProjects(jwtToken);
       setProjects(prjs);
     };
 
     loadProject();
-  }, []);
+  }, [jwtToken]);
 
   const onNewProject = () => {
     navigate(RoutePaths.NewProject);

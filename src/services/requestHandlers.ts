@@ -3,14 +3,14 @@ import { IProject, ITask, IUser } from "../types";
 
 // const URL = "https://simpleprojectmanager.azurewebsites.net"; // "http://127.0.0.1:5000";
 const URL = "http://127.0.0.1:5000"
-export const GetProjects = async (adminId: number) => {
+export const GetProjects = async (token: string | null) => {
     let response: Array<IProject> = []
     const request = await axios({
         method: 'get',
         url: `${URL}/projects`,
         responseType: 'json',
-        params: {
-            adminId
+        headers: {
+            "x-access-token": token
         }
     })
     if (request.status !== 200) {
@@ -98,7 +98,7 @@ export const SaveTask = async (task: Partial<ITask>) => {
     }
 }
 
-export const CreateProject = async (project: Partial<IProject>) => {
+export const CreateProject = async (token: string | null, project: Partial<IProject>) => {
     const request = await axios({
         method: 'post',
         url: `${URL}/projects`,
@@ -106,7 +106,9 @@ export const CreateProject = async (project: Partial<IProject>) => {
             title: project.title,
             description: project.description,
             status: project.status,
-            admin_id: 7
+        },
+        headers: {
+            "x-access-token": token
         }
     });
     if (request.status !== 201) {

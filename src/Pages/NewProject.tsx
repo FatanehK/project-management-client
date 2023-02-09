@@ -11,8 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { CreateProject } from "../services/requestHandlers";
 import { IProject } from "../types";
 import { RoutePaths } from "../contants";
+import { useAtom } from "jotai";
+import { jwtTokenAtom } from "../state/atoms";
 
 export const NewProject: React.FC = () => {
+  const [idToken] = useAtom(jwtTokenAtom);
   const navigate = useNavigate();
 
   const [project, setProject] = useState<Partial<IProject>>({
@@ -44,7 +47,7 @@ export const NewProject: React.FC = () => {
 
   const onCreate = async () => {
     try {
-      await CreateProject(project);
+      await CreateProject(idToken, project);
       setAlert({
         open: true,
         severity: "success",
