@@ -1,8 +1,8 @@
 import axios from "axios";
 import { IProject, ITask, IUser } from "../types";
 
-const URL = "https://simpleprojectmanager.azurewebsites.net"; // "http://127.0.0.1:5000";
-
+// const URL = "https://simpleprojectmanager.azurewebsites.net"; // "http://127.0.0.1:5000";
+const URL = "http://127.0.0.1:5000"
 export const GetProjects = async (adminId: number) => {
     let response: Array<IProject> = []
     const request = await axios({

@@ -13,11 +13,15 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
+import { useAtom } from "jotai";
+import { currentUserAtom } from "../state/atoms";
 
 const pages = ["Home", "Projects", "Tasks"];
 const settings = ["Profile", "About", "Logout"];
 
 export const ResponsiveAppBar: React.FC = () => {
+  const [currentUser] = useAtom(currentUserAtom);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -53,8 +57,8 @@ export const ResponsiveAppBar: React.FC = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          {/* change  */}
-          <Avatar>Fk</Avatar>
+          {/* TODO: fix name  */}
+          <Avatar>{currentUser?.full_name}</Avatar>
         </IconButton>
       </Tooltip>
       <Menu

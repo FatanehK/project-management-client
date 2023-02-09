@@ -2,40 +2,33 @@ import { Box } from "@mui/system";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useEffect, useState } from "react";
 import { ValidateGoogleAuth } from "../services/requestHandlers";
+import { useAtom } from "jotai";
+import { currentUserAtom, idTokenAtom } from "../state/atoms";
 
 export const GoogleAuth = () => {
+  const [, setCurrentUser] = useAtom(currentUserAtom);
+  const [, setIdToken] = useAtom(idTokenAtom);
   const [user, setUser] = useState<CredentialResponse>();
-  const [profile, setProfile] = useState<any>();
 
   useEffect(() => {
     const getUserInfo = async () => {
       if (user && user.credential) {
-        console.log(user);
+        setIdToken(user.credential);
         const userInfo = await ValidateGoogleAuth(user.credential);
-        setProfile(userInfo);
+        setCurrentUser(userInfo.user);
       }
     };
     getUserInfo();
-  }, [user]);
+  }, [user, setCurrentUser, setIdToken]);
 
   const onSuccess = (codeResponse: CredentialResponse) => setUser(codeResponse);
 
   return (
     <Box>
-      {profile ? (
-        <div>
-          <h3>User Logged in</h3>
-          <p>Name: {profile.name}</p>
-          <p>Email Address: {profile.email}</p>
-          <br />
-          <br />
-        </div>
-      ) : (
-        <GoogleLogin
-          onSuccess={onSuccess}
-          onError={() => console.log("Error in google singg n")}
-        />
-      )}
+      <GoogleLogin
+        onSuccess={onSuccess}
+        onError={() => console.log("Error in google singg n")}
+      />
     </Box>
   );
 };
