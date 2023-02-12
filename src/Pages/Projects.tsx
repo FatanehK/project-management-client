@@ -4,7 +4,7 @@ import { ProjectCard } from "../components/ProjectCard";
 import { useEffect, useState } from "react";
 import { IProject } from "../types";
 import { useQuery } from "../services/requestHandlers";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
 
@@ -30,7 +30,11 @@ export const Projects: React.FC = () => {
 
   return (
     <Box sx={{ flex: "1 1 auto" }}>
-      <Button onClick={onNewProject} sx={{ p: 3 }} startIcon={<AddIcon />}>
+      <Button
+        onClick={onNewProject}
+        sx={{ p: 3, ml: 2 }}
+        endIcon={<AddCircleOutlineRoundedIcon />}
+      >
         New Project
       </Button>
       <Container sx={{ m: 2 }}>

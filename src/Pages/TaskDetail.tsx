@@ -3,10 +3,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StatusSelector } from "../components/StatusSelector";
 import { useQuery } from "../services/requestHandlers";
-import { ITask, StatusType } from "../types";
+import { ITask, IUser, StatusType } from "../types";
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { MemberDropDown } from "../components/MemberDropDown";
 
 export const TaskDetail: React.FC = () => {
   const queries = useQuery();
@@ -61,6 +62,10 @@ export const TaskDetail: React.FC = () => {
     if (newValue) {
       setTask({ ...task, due_date: newValue.toString() });
     }
+  };
+
+  const onAssignToChanged = (newValue: IUser) => {
+    setTask({ ...task, assigned_to_id: newValue.id, assigned_to: newValue });
   };
 
   const onSave = async () => {
@@ -128,6 +133,13 @@ export const TaskDetail: React.FC = () => {
         onChange={onDescriptionChanged}
       />
       <Box sx={{ alignSelf: "start", width: 200 }}>
+        {task.project_id && (
+          <MemberDropDown
+            projectId={task.project_id}
+            currentValue={task.assigned_to}
+            onChange={onAssignToChanged}
+          />
+        )}
         <StatusSelector
           onChange={onStatusChanged}
           value={task.status ?? "New"}

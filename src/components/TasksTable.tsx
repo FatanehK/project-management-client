@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { ITask } from "../types";
 import { AgGridReact } from "ag-grid-react";
 import {
@@ -7,13 +7,15 @@ import {
   RowDoubleClickedEvent,
 } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-material.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
 export interface ITasksTableProps {
   tasks: ITask[];
   showLable: boolean;
+  onNewTask?: () => void;
 }
 
 interface ITaskRow {
@@ -71,7 +73,7 @@ const defaultColDef: ColDef = {
 };
 
 export const TasksTable: React.FC<ITasksTableProps> = (props) => {
-  const { tasks, showLable } = props;
+  const { tasks, showLable, onNewTask } = props;
   const navigate = useNavigate();
   const rows: ITaskRow[] = tasks.map((task) => {
     return {
@@ -105,21 +107,28 @@ export const TasksTable: React.FC<ITasksTableProps> = (props) => {
         pl: 5,
         pr: 5,
         pd: 5,
+        mb: 5,
+        mt: 5,
       }}
     >
       {showLable && (
-        <Typography
-          gutterBottom
-          variant="overline"
-          component="div"
-          sx={{ alignSelf: "start" }}
-        >
-          Tasks
-        </Typography>
+        <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Typography
+            gutterBottom
+            variant="button"
+            component="div"
+            sx={{ mt: 1 }}
+          >
+            Tasks
+          </Typography>
+          <IconButton color="primary" onClick={onNewTask}>
+            <AddCircleOutlineRoundedIcon />
+          </IconButton>
+        </Box>
       )}
       <div
         style={{ flex: "1 1 auto", alignSelf: "stretch" }}
-        className="ag-theme-material"
+        className="ag-theme-alpine"
       >
         <AgGridReact<ITaskRow>
           columnDefs={columns}

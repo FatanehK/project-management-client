@@ -1,16 +1,12 @@
 import {
   Avatar,
   Box,
-  Button,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogProps,
   DialogTitle,
   FormControl,
   IconButton,
   Input,
-  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
@@ -31,10 +27,11 @@ interface IMembersListProps {
   projectId: number;
   onMemberSelected?: (member: IUser) => void;
   onClose?: () => void;
+  onError?: (errorMessage: string) => void;
 }
 
 export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
-  const { projectId, onMemberSelected, onClose } = props;
+  const { projectId, onMemberSelected, onClose, onError } = props;
   const { GetProjectMember, AddMemberToProject, RemoveProjectMember } =
     useQuery();
   const [members, setMembers] = useState<IUser[]>([]);
@@ -51,13 +48,21 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
   }, [getMembers, projectId]);
 
   const addMember = async () => {
-    await AddMemberToProject(`${projectId}`, fullName, email);
-    getMembers();
+    try {
+      await AddMemberToProject(`${projectId}`, fullName, email);
+      getMembers();
+    } catch {
+      onError?.("Member cannot be added to this project.");
+    }
   };
 
   const removeMember = async (removedMember: IUser) => {
-    await RemoveProjectMember(`${projectId}`, removedMember.id);
-    getMembers();
+    try {
+      await RemoveProjectMember(`${projectId}`, removedMember.id);
+      getMembers();
+    } catch {
+      onError?.("Error when trying to remove this member.");
+    }
   };
 
   return (

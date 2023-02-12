@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  Divider,
   Snackbar,
   TextField,
   Typography,
@@ -12,7 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { TasksTable } from "../components/TasksTable";
 import { RoutePaths } from "../contants";
 import { useQuery } from "../services/requestHandlers";
-import { IProject, ITask, IUser } from "../types";
+import { IProject, ITask } from "../types";
 import AddIcon from "@mui/icons-material/Add";
 import { MembersListDialog } from "../components/MembersListDialog";
 
@@ -136,11 +137,11 @@ export const ProjectDetail: React.FC = () => {
       >
         <Typography
           gutterBottom
-          variant="overline"
+          variant="button"
           component="div"
           sx={{ alignSelf: "start" }}
         >
-          {`Project Id: ${projectId}`}
+          {`Owner: ${project.admin?.full_name}`}
         </Typography>
         <TextField
           label="Title"
@@ -156,30 +157,39 @@ export const ProjectDetail: React.FC = () => {
           value={project.description}
           onChange={handleOnDescriptionChange}
         />
-        <Button
-          variant="contained"
-          sx={{ width: 100, alignSelf: "end" }}
-          onClick={onSave}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
         >
-          Save
-        </Button>
-        <Button onClick={() => setmemberDialogOpen(true)} variant="outlined">
-          Project Members
-        </Button>
+          <Button onClick={() => setmemberDialogOpen(true)} variant="outlined">
+            Project Members
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ width: 100, alignSelf: "end" }}
+            onClick={onSave}
+          >
+            Save
+          </Button>
+        </Box>
       </Box>
-
-      <Button
-        onClick={onNewTask}
-        sx={{ alignSelf: "start", p: 2 }}
-        startIcon={<AddIcon />}
-      >
-        New Task
-      </Button>
-      {tasks && <TasksTable tasks={tasks} showLable={true} />}
+      {tasks && (
+        <TasksTable tasks={tasks} showLable={true} onNewTask={onNewTask} />
+      )}
       {project.id && memberDialogOpen && (
         <MembersListDialog
           projectId={project.id}
           onClose={() => setmemberDialogOpen(false)}
+          onError={() => {
+            setAlert({
+              open: true,
+              severity: "error",
+            });
+          }}
         />
       )}
     </Box>
