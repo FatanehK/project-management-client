@@ -15,40 +15,43 @@ import { NewProject } from "./Pages/NewProject";
 import { TaskDetail } from "./Pages/TaskDetail";
 import { NewTask } from "./Pages/NewTask";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useAtom } from "jotai";
+import { currentUserAtom } from "./state/atoms";
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#757ce8",
+      light: "#a44fbb",
       main: "#8e24aa",
-      dark: "#002884",
+      dark: "#631976",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#ff7961",
-      main: "#f44336",
-      dark: "#ba000d",
+      light: "#9670ff",
+      main: "#7c4dff",
+      dark: "#5635b2",
       contrastText: "#000",
     },
   },
 });
 
 const App: React.FC = () => {
+  const [currentUser] = useAtom(currentUserAtom);
+  const protectedRoutes = [
+    <Route path={RoutePaths.Projects} element={<Projects />} />,
+    <Route path={RoutePaths.ProjectDetail} element={<ProjectDetail />} />,
+    <Route path={RoutePaths.NewProject} element={<NewProject />} />,
+    <Route path={RoutePaths.Tasks} element={<Tasks />} />,
+    <Route path={RoutePaths.TaskDetail} element={<TaskDetail />} />,
+    <Route path={RoutePaths.NewTask} element={<NewTask />} />,
+  ];
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route path={RoutePaths.Home} element={<PageBody />}>
+            {currentUser && protectedRoutes}
             <Route index element={<Home />} />
-            <Route path={RoutePaths.Projects} element={<Projects />} />
-            <Route
-              path={RoutePaths.ProjectDetail}
-              element={<ProjectDetail />}
-            />
-            <Route path={RoutePaths.NewProject} element={<NewProject />} />
-            <Route path={RoutePaths.Tasks} element={<Tasks />} />
-            <Route path={RoutePaths.TaskDetail} element={<TaskDetail />} />
-            <Route path={RoutePaths.NewTask} element={<NewTask />} />
             <Route path="*" element={<Home />} />
           </Route>
         </Routes>

@@ -10,18 +10,18 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "../state/atoms";
-import { IUser } from "../types";
 
 const pages = ["Home", "Projects", "Tasks"];
-const settings = ["Profile", "Logout"];
+const settings = ["Logout"];
 
 export const ResponsiveAppBar: React.FC = () => {
   const [currentUser] = useAtom(currentUserAtom);
+  const theme = useTheme();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -31,6 +31,10 @@ export const ResponsiveAppBar: React.FC = () => {
   );
 
   const navigate = useNavigate();
+
+  if (!currentUser) {
+    return <></>;
+  }
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -73,9 +77,11 @@ export const ResponsiveAppBar: React.FC = () => {
   };
   const profileMenu = (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open settings">
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar>{getUserInitisls()}</Avatar>
+      <Tooltip title={`Logged in as: ${currentUser.full_name}`}>
+        <IconButton onClick={handleOpenUserMenu} color="primary" sx={{ p: 0 }}>
+          <Avatar sx={{ bgcolor: theme.palette.primary.light }}>
+            {getUserInitisls()}
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

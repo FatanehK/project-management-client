@@ -2,7 +2,6 @@ import {
   Alert,
   Box,
   Button,
-  Divider,
   Snackbar,
   TextField,
   Typography,
@@ -14,7 +13,6 @@ import { TasksTable } from "../components/TasksTable";
 import { RoutePaths } from "../contants";
 import { useQuery } from "../services/requestHandlers";
 import { IProject, ITask } from "../types";
-import AddIcon from "@mui/icons-material/Add";
 import { MembersListDialog } from "../components/MembersListDialog";
 
 export const ProjectDetail: React.FC = () => {

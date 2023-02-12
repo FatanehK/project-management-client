@@ -4,7 +4,7 @@ import { useQuery } from "../services/requestHandlers";
 import { useAtom } from "jotai";
 import { currentUserAtom, jwtTokenAtom } from "../state/atoms";
 
-export const GoogleAuth = () => {
+export const GoogleAuth: React.FC = () => {
   const [, setCurrentUser] = useAtom(currentUserAtom);
   const [, setJwtToken] = useAtom(jwtTokenAtom);
   const queries = useQuery();
