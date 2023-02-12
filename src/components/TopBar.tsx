@@ -53,11 +53,28 @@ export const ResponsiveAppBar: React.FC = () => {
     }
   };
 
+  // const getUserInitisls = (currentUser: IUser) => {
+  //   const split_name:string []|undefined = currentUser?.full_name?.split(" ");
+    // if (split_name){
+    // let initals = "";
+    // for (const name of split_name){
+    //   if (split_name.length >= 2){
+    //   initals += name[0].toUpperCase()
+    //   initals += split_name?[split_name.length-1][0].toUpperCase()}
+  
+    //   else {initals += name[0][0].toUpperCase();
+    //   }
+      
+    //   }
+    // return initals}
+    // else{}
+      
+    // }
   const profileMenu = (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          {/* TODO: fix name  */}
+          {/* <Avatar>{getUserInitisls(currentUser?.full_name)}</Avatar> */}
           <Avatar>{currentUser?.full_name}</Avatar>
         </IconButton>
       </Tooltip>
@@ -92,7 +109,11 @@ export const ResponsiveAppBar: React.FC = () => {
         <Button
           key={page}
           onClick={() => handleCloseNavMenu(page)}
-          sx={{ my: 2, color: "white", display: "block" }}
+          sx={{
+            my: 2,
+            color: "white",
+            display: "block",
+          }}
         >
           {page}
         </Button>

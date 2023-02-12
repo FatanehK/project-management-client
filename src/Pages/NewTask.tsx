@@ -1,18 +1,28 @@
-import { Alert, Box, Button, Snackbar, TextField, Typography } from "@mui/material"
-import { ChangeEvent, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { RoutePaths } from "../contants"
-import { CreateTask } from "../services/requestHandlers"
-import { ITask } from "../types"
+import {
+  Alert,
+  Box,
+  Button,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { ChangeEvent, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { RoutePaths } from "../contants";
+import { useQuery } from "../services/requestHandlers";
+import { ITask } from "../types";
 
-export const NewTask: React.FC = () =>{
-    const navigate = useNavigate()
+export const NewTask: React.FC = () => {
+  const navigate = useNavigate();
+  const { projectId } = useParams();
+  const queries = useQuery();
 
-    const [task,setTask]= useState<Partial<ITask>>({title: "",
-    description: ""});
+  const [task, setTask] = useState<Partial<ITask>>({
+    title: "",
+    description: "",
+  });
 
-
-    const [alert, setAlert] = useState<{
+  const [alert, setAlert] = useState<{
     open: boolean;
     severity: "success" | "error";
   }>({
@@ -20,37 +30,42 @@ export const NewTask: React.FC = () =>{
     severity: "error",
   });
 
-    const handleTitleChange = (
-        event: ChangeEvent<HTMLTextAreaElement| HTMLInputElement>) =>{
-            const title = event.currentTarget.value;
-            setTask({...task, title})
-        };
-    const handleDecriptionChange = (
-        event:ChangeEvent<HTMLTextAreaElement|HTMLInputElement>)=>{
-            const description = event.currentTarget.value;
-            setTask({...task,description});
-        }
-    const onCreate = async()=>{
-        try{
-            await CreateTask(task);
-            setAlert({
-            open: true,
-            severity: "success",
+  const handleTitleChange = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const title = event.currentTarget.value;
+    setTask({ ...task, title });
+  };
+  const handleDecriptionChange = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const description = event.currentTarget.value;
+    setTask({ ...task, description });
+  };
+  const onCreate = async () => {
+    try {
+      if (!projectId) {
+        return;
+      }
+      await queries.CreateTask({ ...task, project_id: Number(projectId) });
+      setAlert({
+        open: true,
+        severity: "success",
       });
-      setTimeout(()=>{
+      setTimeout(() => {
         navigate(RoutePaths.tasks);
-      },1000);
-    } catch(error){
-        setAlert({
-            open: true,
-            severity: "error",
-        });
+      }, 1000);
+    } catch (error) {
+      setAlert({
+        open: true,
+        severity: "error",
+      });
     }
-    };
-    const handleCloseAlert = () =>{
-        setAlert({open:false, severity: alert.severity })
-    };
-    return (
+  };
+  const handleCloseAlert = () => {
+    setAlert({ open: false, severity: alert.severity });
+  };
+  return (
     <Box
       sx={{
         flex: "1 1 auto",
@@ -124,4 +139,4 @@ export const NewTask: React.FC = () =>{
       </Box>
     </Box>
   );
-}
+};

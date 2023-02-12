@@ -23,5 +23,6 @@ export interface ITask {
   description: string | null;
   status: StatusType;
   due_date: string | null;
-  assigned_to: IUser
+  assigned_to: IUser,
+  project_id: number,
 }

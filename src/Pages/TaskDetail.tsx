@@ -2,13 +2,14 @@ import { Box, Snackbar, Alert, TextField, Button } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StatusSelector } from "../components/StatusSelector";
-import { GetTask, SaveTask } from "../services/requestHandlers";
+import { useQuery } from "../services/requestHandlers";
 import { ITask, StatusType } from "../types";
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 export const TaskDetail: React.FC = () => {
+  const queries = useQuery();
   const { taskId } = useParams();
   const [task, setTask] = useState<Partial<ITask>>({
     title: "",
@@ -28,7 +29,7 @@ export const TaskDetail: React.FC = () => {
   useEffect(() => {
     const loadTask = async () => {
       if (taskId) {
-        const tsk = await GetTask(taskId);
+        const tsk = await queries.GetTask(taskId);
         if (tsk) {
           setTask(tsk);
         }
@@ -36,7 +37,7 @@ export const TaskDetail: React.FC = () => {
     };
 
     loadTask();
-  }, [taskId]);
+  }, [taskId, queries]);
 
   const onTitleChanged = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -64,7 +65,7 @@ export const TaskDetail: React.FC = () => {
 
   const onSave = async () => {
     try {
-      await SaveTask(task);
+      await queries.SaveTask(task);
       setAlert({
         open: true,
         severity: "success",
@@ -126,7 +127,7 @@ export const TaskDetail: React.FC = () => {
         value={task.description}
         onChange={onDescriptionChanged}
       />
-      <Box sx={{ alignSelf: "start" , width: 200}}>
+      <Box sx={{ alignSelf: "start", width: 200 }}>
         <StatusSelector
           onChange={onStatusChanged}
           value={task.status ?? "New"}

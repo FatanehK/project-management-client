@@ -1,27 +1,23 @@
 import { Box } from "@mui/system";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { useEffect, useState } from "react";
-import { ValidateGoogleAuth } from "../services/requestHandlers";
+import { useQuery } from "../services/requestHandlers";
 import { useAtom } from "jotai";
 import { currentUserAtom, jwtTokenAtom } from "../state/atoms";
 
 export const GoogleAuth = () => {
   const [, setCurrentUser] = useAtom(currentUserAtom);
   const [, setJwtToken] = useAtom(jwtTokenAtom);
-  const [user, setUser] = useState<CredentialResponse>();
+  const queries = useQuery();
 
-  useEffect(() => {
-    const getUserInfo = async () => {
-      if (user && user.credential) {
-        const userInfo = await ValidateGoogleAuth(user.credential);
-        setJwtToken(userInfo.token);
-        setCurrentUser(userInfo.user);
-      }
-    };
-    getUserInfo();
-  }, [user, setCurrentUser, setJwtToken]);
-
-  const onSuccess = (codeResponse: CredentialResponse) => setUser(codeResponse);
+  const onSuccess = async (codeResponse: CredentialResponse) => {
+    if (codeResponse.credential) {
+      const userInfo = await queries.ValidateGoogleAuth(
+        codeResponse.credential
+      );
+      setJwtToken(userInfo.token);
+      setCurrentUser(userInfo.user);
+    }
+  };
 
   return (
     <Box>

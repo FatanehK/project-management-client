@@ -91,7 +91,7 @@ export const TasksTable: React.FC<ITasksTableProps> = (props) => {
   const onRowDoubleClicked = (event: RowDoubleClickedEvent<ITaskRow>) => {
     const taskId = event.data?.id;
     if (taskId) {
-      navigate(`${taskId}`);
+      navigate(`/tasks/${taskId}`);
     }
   };
 

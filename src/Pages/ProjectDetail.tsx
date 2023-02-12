@@ -8,25 +8,23 @@ import {
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TasksTable } from "../components/TasksTable";
-import { UserList } from "../components/UsersList";
-import {
-  GetProject,
-  GetProjectMember,
-  GetProjectTasks,
-  SaveProject,
-} from "../services/requestHandlers";
+import { RoutePaths } from "../contants";
+import { useQuery } from "../services/requestHandlers";
 import { IProject, ITask, IUser } from "../types";
+import AddIcon from "@mui/icons-material/Add";
+import { MembersListDialog } from "../components/MembersListDialog";
 
 export const ProjectDetail: React.FC = () => {
   const { projectId } = useParams();
-
+  const queries = useQuery();
+  const navigate = useNavigate();
+  const [memberDialogOpen, setmemberDialogOpen] = useState(false);
   const [project, setProject] = useState<Partial<IProject>>({
     title: "",
     description: "",
   });
-  const [members, setMembers] = useState<IUser[]>([]);
   const [tasks, setTasks] = useState<ITask[] | null>(null);
   const [alert, setAlert] = useState<{
     open: boolean;
@@ -39,7 +37,7 @@ export const ProjectDetail: React.FC = () => {
   useEffect(() => {
     const loadProject = async () => {
       if (projectId) {
-        const prj = await GetProject(projectId);
+        const prj = await queries.GetProject(projectId);
         if (prj) {
           setProject(prj);
         }
@@ -47,20 +45,13 @@ export const ProjectDetail: React.FC = () => {
     };
     const loadProjectTasks = async () => {
       if (projectId) {
-        const tasksList = await GetProjectTasks(projectId);
+        const tasksList = await queries.GetProjectTasks(projectId);
         setTasks(tasksList);
-      }
-    };
-    const loadProjectMembers = async () => {
-      if (projectId) {
-        const memberlist = await GetProjectMember(projectId);
-        setMembers(memberlist);
       }
     };
     loadProject();
     loadProjectTasks();
-    loadProjectMembers();
-  }, [projectId]);
+  }, [projectId, queries]);
 
   const handleOnTitleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -78,7 +69,7 @@ export const ProjectDetail: React.FC = () => {
 
   const onSave = async () => {
     try {
-      await SaveProject(project);
+      await queries.SaveProject(project);
       setAlert({
         open: true,
         severity: "success",
@@ -93,6 +84,12 @@ export const ProjectDetail: React.FC = () => {
 
   const handleCloseAlert = () => {
     setAlert({ open: false, severity: alert.severity });
+  };
+
+  const onNewTask = () => {
+    if (projectId) {
+      navigate(RoutePaths.NewTask.replace(":projectId", projectId));
+    }
   };
 
   return (
@@ -166,10 +163,25 @@ export const ProjectDetail: React.FC = () => {
         >
           Save
         </Button>
+        <Button onClick={() => setmemberDialogOpen(true)} variant="outlined">
+          Project Members
+        </Button>
       </Box>
 
+      <Button
+        onClick={onNewTask}
+        sx={{ alignSelf: "start", p: 2 }}
+        startIcon={<AddIcon />}
+      >
+        New Task
+      </Button>
       {tasks && <TasksTable tasks={tasks} showLable={true} />}
-      <UserList users={members ?? []} />
+      {project.id && memberDialogOpen && (
+        <MembersListDialog
+          projectId={project.id}
+          onClose={() => setmemberDialogOpen(false)}
+        />
+      )}
     </Box>
   );
 };

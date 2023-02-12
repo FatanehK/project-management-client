@@ -3,26 +3,26 @@ import { default as Grid } from "@mui/material/Unstable_Grid2";
 import { ProjectCard } from "../components/ProjectCard";
 import { useEffect, useState } from "react";
 import { IProject } from "../types";
-import { GetProjects } from "../services/requestHandlers";
+import { useQuery } from "../services/requestHandlers";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
-import { useAtom } from "jotai";
-import { jwtTokenAtom } from "../state/atoms";
 
 export const Projects: React.FC = () => {
-  const [jwtToken] = useAtom(jwtTokenAtom);
   const [projects, setProjects] = useState<IProject[] | null>(null);
   const navigate = useNavigate();
+  const { GetProjects } = useQuery();
 
   useEffect(() => {
     const loadProject = async () => {
-      const prjs = await GetProjects(jwtToken);
-      setProjects(prjs);
+      try {
+        const prjs = await GetProjects();
+        setProjects(prjs);
+      } catch (error) {}
     };
 
     loadProject();
-  }, [jwtToken]);
+  }, [GetProjects]);
 
   const onNewProject = () => {
     navigate(RoutePaths.NewProject);
