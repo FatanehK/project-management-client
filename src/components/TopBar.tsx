@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "../state/atoms";
+import { IUser } from "../types";
 
 const pages = ["Home", "Projects", "Tasks"];
 const settings = ["Profile", "Logout"];
@@ -53,29 +54,28 @@ export const ResponsiveAppBar: React.FC = () => {
     }
   };
 
-  // const getUserInitisls = (currentUser: IUser) => {
-  //   const split_name:string []|undefined = currentUser?.full_name?.split(" ");
-    // if (split_name){
-    // let initals = "";
-    // for (const name of split_name){
-    //   if (split_name.length >= 2){
-    //   initals += name[0].toUpperCase()
-    //   initals += split_name?[split_name.length-1][0].toUpperCase()}
-  
-    //   else {initals += name[0][0].toUpperCase();
-    //   }
-      
-    //   }
-    // return initals}
-    // else{}
-      
-    // }
+  const getUserInitisls = () => {
+    let initials = "";
+    if (currentUser) {
+      const splitName = currentUser.full_name?.split(" ");
+      if (splitName) {
+        if (splitName.length > 0) {
+          initials = (splitName[0].at(0) ?? "").toUpperCase();
+          if (splitName.length > 1) {
+            initials += (
+              splitName[splitName.length - 1].at(0) ?? ""
+            ).toUpperCase();
+          }
+        }
+      }
+    }
+    return initials;
+  };
   const profileMenu = (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          {/* <Avatar>{getUserInitisls(currentUser?.full_name)}</Avatar> */}
-          <Avatar>{currentUser?.full_name}</Avatar>
+          <Avatar>{getUserInitisls()}</Avatar>
         </IconButton>
       </Tooltip>
       <Menu
