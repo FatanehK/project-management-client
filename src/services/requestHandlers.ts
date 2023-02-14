@@ -4,8 +4,8 @@ import { useRef } from "react";
 import { jwtTokenAtom } from "../state/atoms";
 import { IProject, ITask, IUser } from "../types";
 
-// const URL = "https://simpleprojectmanager.azurewebsites.net";
-const URL = "http://127.0.0.1:5000"
+const URL = "https://simpleprojectmanager.azurewebsites.net";
+// const URL = "http://127.0.0.1:5000"
 
 export const useQuery = () => {
     const [jwtToken] = useAtom(jwtTokenAtom);
