@@ -72,7 +72,7 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const newValue = e.currentTarget.value;
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newValue)) {
+    if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(newValue)) {
       setEmailIsValid(true);
     } else {
       setEmailIsValid(false);
