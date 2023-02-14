@@ -49,7 +49,6 @@ export const Projects: React.FC = () => {
                 id={project.id}
                 title={project.title}
                 description={project.description ?? ""}
-                // status={project.status}
               />
             </Grid>
           ))}

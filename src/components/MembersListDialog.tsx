@@ -6,13 +6,13 @@ import {
   DialogTitle,
   FormControl,
   IconButton,
-  Input,
   List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
   Paper,
+  TextField,
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
@@ -37,6 +37,7 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
   const [members, setMembers] = useState<IUser[]>([]);
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(false);
 
   const getMembers = useCallback(async () => {
     const prjMembers = await GetProjectMember(`${projectId}`);
@@ -51,6 +52,8 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
     try {
       await AddMemberToProject(`${projectId}`, fullName, email);
       getMembers();
+      setEmail("");
+      setFullName("");
     } catch {
       onError?.("Member cannot be added to this project.");
     }
@@ -63,6 +66,18 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
     } catch {
       onError?.("Error when trying to remove this member.");
     }
+  };
+
+  const onEmailChanged = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const newValue = e.currentTarget.value;
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newValue)) {
+      setEmailIsValid(true);
+    } else {
+      setEmailIsValid(false);
+    }
+    setEmail(newValue);
   };
 
   return (
@@ -80,19 +95,23 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
         >
           <FormControl sx={{ m: 2, width: "100%" }}>
             <Typography variant="caption">Add New Member</Typography>
-            <Input
+            <TextField
+              variant="standard"
               id="member-name"
               aria-describedby="member-name"
               placeholder="Fullname"
               value={fullName}
               onChange={(e) => setFullName(e.currentTarget.value)}
             />
-            <Input
+            <TextField
+              variant="standard"
+              error={!emailIsValid}
+              helperText={!emailIsValid && "Email is not valid."}
               id="member-email"
               aria-describedby="member-email"
               placeholder="Email address"
               value={email}
-              onChange={(e) => setEmail(e.currentTarget.value)}
+              onChange={onEmailChanged}
             />
           </FormControl>
           <IconButton
@@ -100,6 +119,7 @@ export const MembersListDialog: React.FC<IMembersListProps> = (props) => {
             aria-label="add-member"
             sx={{ p: 2, alignSelf: "flex-end" }}
             onClick={addMember}
+            disabled={!emailIsValid}
           >
             <PersonAddAltRoundedIcon />
           </IconButton>

@@ -14,13 +14,13 @@ import { Button, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../contants";
 import { useAtom } from "jotai";
-import { currentUserAtom } from "../state/atoms";
+import { currentUserAtom, jwtTokenAtom } from "../state/atoms";
 
 const pages = ["Home", "Projects", "Tasks"];
-const settings = ["Logout"];
 
 export const ResponsiveAppBar: React.FC = () => {
-  const [currentUser] = useAtom(currentUserAtom);
+  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
+  const [, setJwtToken] = useAtom(jwtTokenAtom);
   const theme = useTheme();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -57,7 +57,12 @@ export const ResponsiveAppBar: React.FC = () => {
       navigate(RoutePaths[pageName]);
     }
   };
-
+  const logOut = () => {
+    setCurrentUser(null);
+    setJwtToken(null);
+    setAnchorElUser(null);
+    navigate(RoutePaths.Home);
+  };
   const getUserInitisls = () => {
     let initials = "";
     if (currentUser) {
@@ -100,11 +105,9 @@ export const ResponsiveAppBar: React.FC = () => {
         open={Boolean(anchorElUser)}
         onClose={() => handleCloseUserMenu()}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-            <Typography textAlign="center">{setting}</Typography>
-          </MenuItem>
-        ))}
+        <MenuItem onClick={logOut}>
+          <Typography textAlign="center">Logout</Typography>
+        </MenuItem>
       </Menu>
     </Box>
   );

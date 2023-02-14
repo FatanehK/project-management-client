@@ -33,6 +33,7 @@ const columns: ColDef<ITaskRow>[] = [
     headerName: "Id",
     width: 80,
     resizable: false,
+    sort: "asc",
   },
   {
     field: "title",
@@ -70,6 +71,7 @@ const columns: ColDef<ITaskRow>[] = [
 
 const defaultColDef: ColDef = {
   resizable: true,
+  sortable: true,
 };
 
 export const TasksTable: React.FC<ITasksTableProps> = (props) => {

@@ -10,7 +10,7 @@ import { StatusType } from "../types";
 
 
 export interface IStatusSelectorProps {
-  value: StatusType;
+  value?: StatusType;
   onChange?: (newValue: StatusType) => void;
 }
 
